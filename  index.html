@@ -40,11 +40,11 @@ function incrementPlayerScore(player, incrvalue){
 	console.log(player, incrvalue)
 	if(player == 'one'){
 		var pos = Number($('#playerOneScore').text());
-		var pos = pos + incrvalue
+		var pos = pos + Number(incrvalue)
 		('#playerOneScore').text(pos);
 	} else {
 		var pos = Number($('#playerTwoScore').text());
-		var pos = pos + incrvalue
+		var pos = pos + Number(incrvalue)
 		('#playerTwoScore').text(pos);
 	}
 
@@ -59,7 +59,7 @@ document.onkeydown = function(e){
         incrementPlayerScore('one', -1);
     } else if (key === 80){
         incrementPlayerScore('two', 1);
-    } else if (key === 81){
+    } else if (key === 76){
         incrementPlayerScore('two', -1);
     }
 }

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ping Pong Scoreboard</title>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<style type="text/css">
+		.score{
+			font-size: 400pt;
+			font-weight: bold;
+			height: 20%;
+			line-height: 0.8em;		
+		}
+
+			.playername {
+				font-size: 50pt;
+				font-weight: bold;
+			}
+
+			#serveImage{
+				width: 80px;
+				height: 80px;
+			}
+
+			.hidden{
+				visibility: hidden;
+			}
+
+			.visible{
+				visibility: visible;
+			}
+
+			.serveimage {
+				min-height: 90px;
+			}
+
+			.winner{
+				background: rgb(0, 190, 0);
+			}
+			#header {
+				position: relative;
+				margin: 0;
+				background-color: #ee3124;
+				height: 64px;
+				box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+			}
+			#eroadLogoLoginImage {
+				width: 50px;
+				padding: 7px;
+				margin-left: 4px;
+			}
+
+		</style>
+		<link rel="stylesheet" type="text/css" href="grid.css">
+	</head>
+	<body>
+		<div id='header'>
+			<img src="/img/eroad_header_logo.png" id="eroadLogoLoginImage" width="50" alt="EROAD">
+
+		</div>
+		<div class="row">
+
+			<div id='p1' class='col-6-sm col center'>
+				<div class='playername'>
+					Player One</br>
+				</div>
+				<div id='p1ServeImg' class = 'visible'>
+					<img id='serveImage' src="/img/pingpong.png">
+				</div>
+				<div id='p1Score' class='score center'>0</div>
+			</div>
+
+			<div id='p2' class='col-6-sm col center'>
+				<div class='playername'>
+					Player Two</br>
+				</div>			<div id='p2ServeImg' class = 'hidden'>
+				<img id='serveImage' src="/img/pingpong.png">
+			</div>
+
+			<div id='p2Score' class='score center'>0</div>
+		</div>
+	</div>
+
+
+
+	<div class="row">
+
+	</div>
+
+
+</body>
+
+<script type="text/javascript">
+	
+	var serveSwap = function(){
+		var p1score = Number($('#p1Score').text());
+		var p2score = Number($('#p2Score').text());
+		var combined = Number(p1score + p2score);
+		console.log(combined)
+		return (combined % 5 == 0)
+	}
+
+
+
+	var incrementPlayerScore = function(player, incrvalue){
+		console.log(player, incrvalue);
+		
+		var score = Number($('#' + player + 'Score').text());
+		score = Math.min(21, Math.max(0, score + incrvalue));
+
+		if(score == 21){
+			var nicename = player === 'p1' ? "Player One" :"Player Two";
+			$('#' + player + 'Score').text(score);
+			$('#' + player).addClass('winner')
+
+		} else {
+			$('#' + player + 'Score').text(score);
+			$('#' + player).removeClass('winner')
+
+		}
+		
+		var swapServe = serveSwap();
+		console.log(swapServe)
+		if(swapServe){
+
+			var p1ImgClass = $('#p1ServeImg').attr('class')
+
+			if(p1ImgClass == 'visible'){
+				$('#p1ServeImg').removeClass("visible")
+				$('#p1ServeImg').addClass("hidden")
+				$('#p2ServeImg').removeClass("hidden")
+				$('#p2ServeImg').addClass("visible")
+			} else {
+				$('#p1ServeImg').removeClass("hidden")
+				$('#p1ServeImg').addClass("visible")
+				$('#p2ServeImg').removeClass("visible")
+				$('#p2ServeImg').addClass("hidden")
+
+			}
+
+		}
+
+
+
+
+
+
+
+
+
+
+	}
+
+	document.onkeydown = function(e){
+		e = e || window.event;
+		var key = e.which || e.keyCode;
+		if(key===81){
+			incrementPlayerScore('p1', 1);
+		} else if (key === 65){
+			incrementPlayerScore('p1', -1);
+		} else if (key === 80){
+			incrementPlayerScore('p2', 1);
+		} else if (key === 76){
+			incrementPlayerScore('p2', -1);
+		}
+	}
+
+
+</script>
+</html>
